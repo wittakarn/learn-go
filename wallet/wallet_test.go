@@ -1,22 +1,35 @@
 package wallet
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestWallet(t *testing.T) {
-	wallet := Wallet{}
+	t.Run("deposit", func(t *testing.T) {
+		wallet := Wallet{}
 
-	wallet.Deposit(10)
+		wallet.Deposit(10)
 
-	actual := wallet.Balance()
+		actual := wallet.Balance()
 
-	fmt.Printf("address of balance in test is %v \n", &wallet.balance)
+		expected := Bitcoin(10)
 
-	expected := 10
+		if actual != expected {
+			t.Errorf("actual %d expected %d", actual, expected)
+		}
+	})
 
-	if actual != expected {
-		t.Errorf("actual %d expected %d", actual, expected)
-	}
+	t.Run("deposit", func(t *testing.T) {
+		wallet := Wallet{balance: Bitcoin(20)}
+
+		wallet.Withdraw(Bitcoin(10))
+
+		actual := wallet.Balance()
+
+		expected := Bitcoin(10)
+
+		if actual != expected {
+			t.Errorf("actual %d expected %d", actual, expected)
+		}
+	})
 }
